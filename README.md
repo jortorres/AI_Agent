@@ -1,1 +1,1 @@
-Building AI agent for personal learning, using Google's Gemani API. Build functionality for an Agent to run arbitrary Python code. SECURITY RISK, DON'T USE THIS CODE ON YOUR COMPUTER, NOT PROPERLY SECURED.
+Building AI agent for personal learning, using Google's Gemani API. Build functionality for an Agent to run arbitrary Python code. SECURITY RISK, DON'T USE THIS CODE ON YOUR COMPUTER, It does not have all the security and safety features that a production AI agent would have. It is for learning purposes only.
