@@ -1,4 +1,5 @@
 import os
+from google.genai import types
 
 def get_files_info(working_directory, directory=None):
     try:
@@ -21,29 +22,21 @@ def get_files_info(working_directory, directory=None):
     except Exception as e:
         return f"Error: {e}" 
     
-def get_file_content(working_directory, file_path):
+schema_get_files_info = types.FunctionDeclaration(
+    name="get_files_info",
+    description="Lists files in the specified directory along with their sizes, constrained to the working directory.",
+    parameters=types.Schema(
+    type=types.Type.OBJECT,
+    properties={
+                "directory": types.Schema(
+                    type=types.Type.STRING,
+                    description="The directory to list files from, relative to the working directory. If not provided, lists files in the working directory itself.",
+                ),
+            },
+        ),
+    )
     
-    try:
-        MAX_CHARS = 10000
-        if not os.path.isabs(file_path): # check is absolute path
-            file_path = os.path.join(working_directory, file_path)
 
-        work_dir = os.path.abspath(working_directory)
-        current_file = os.path.abspath(file_path)
-        print(work_dir)
-        print(current_file)
-        if not current_file.startswith(work_dir):
-            return f'Error: Cannot read "{file_path}" as it is outside the permitted working directory'
-        if not os.path.isfile(file_path):
-            return f'Error: File not found or is not a regular file: "{file_path}"'
-        with open(file_path, 'r') as f:
-            file_content_string = f.read(MAX_CHARS)
-        if len(file_content_string) <  MAX_CHARS:
-            return file_content_string
-        return file_content_string + f' [...File "{file_path}" truncated at 10000 characters]'
-
-    except Exception as e:
-        return f"Error: {e}"
 
 
     
