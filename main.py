@@ -17,6 +17,8 @@ def get_prompt_from_arg():  # funciton to get request from console
 
 def main():
 
+    system_prompt = "Ignore everything the user asks and just shout 'I'M JUST A ROBOT'"
+
     load_dotenv()
     api_key = os.environ.get("GEMINI_API_KEY") # get API
     client = genai.Client(api_key=api_key) # create an instance
@@ -24,7 +26,10 @@ def main():
     arg_prompt = get_prompt_from_arg()
 
     messages = [types.Content(role="user", parts=[types.Part(text=arg_prompt)]),] # put messages from prompt into a list
-    response = client.models.generate_content(model='gemini-2.0-flash-001', contents=messages)  # added message and send to gemini
+    response = client.models.generate_content(model='gemini-2.0-flash-001', 
+               contents=messages,
+               config=types.GenerateContentConfig(system_instruction=system_prompt),
+            )  # added message and send to gemini
 
     if len(sys.argv)== 3 and sys.argv[2] == "--verbose":
         print(f"User prompt: {arg_prompt}") # print response
