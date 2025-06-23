@@ -3,8 +3,19 @@ from google.genai import types
 
 def get_files_info(working_directory, directory=None):
     try:
-        if not os.path.isabs(directory): # check is absolute path
-            directory = os.path.join(working_directory, directory) # create it
+
+        if not directory or directory in [".", ""]:
+            directory = working_directory
+        else:
+            abs_work_dir = os.path.abspath(working_directory)
+            abs_dir = os.path.abspath(os.path.join(working_directory, directory))
+            # If the resolved abs_dir is just the working directory, use working directory
+            if abs_dir == abs_work_dir:
+                directory = working_directory
+            else:
+                directory = abs_dir
+        
+                
         work_dir = os.path.abspath(working_directory) 
         arg_dir = os.path.abspath(directory)
         dir_list = os.listdir(directory) # new list with directory contents
